@@ -127,7 +127,7 @@ unzip reefcore_linux.zip
 delay 5
 
 #Setting auto start cron job for itisd
-cronjob="@@reboot /home/reef/reefd --daemon"
+cronjob="@reboot sleep && /home/reef/reefd --daemon"
 crontab -l > tempcron
 if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
