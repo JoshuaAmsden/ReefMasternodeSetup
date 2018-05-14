@@ -1,18 +1,6 @@
 #!/bin/bash
-# ITIS.Network Masternode Setup Script V1.3 for Ubuntu 16.04 LTS
-# (c) 2018 by Dwigt007 for ITIS.Network
-#
-# Script will attempt to autodetect primary public IP address
-# and generate masternode private key unless specified in command line
-#
-# Usage:
-# bash itis-setup.sh [Masternode_Private_Key]
-#
-# Example 1: Existing genkey created earlier is supplied
-# bash itis-setup.sh 27dSmwq9CabKjo2L3UD1HvgBP3ygbn8HdNmFiGFoVbN1STcsypy
-#
-# Example 2: Script will generate a new genkey automatically
-# bash itis-setup.sh
+# Reef Coin Node setup for Ubuntu 16.04 LTS
+# (c) 2018 by Dwigt007 for Reef
 #
 
 #Color codes
@@ -21,7 +9,7 @@ GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-#ITIS TCP port
+#Reef TCP port
 PORT=13058
 
 #Clear keyboard input buffer
@@ -54,7 +42,7 @@ genkey=$1
 
 clear
 
-echo -e "${YELLOW}ITIS Masternode Setup Script V1.3 for Ubuntu 16.04 LTS${NC}"
+echo -e "${YELLOW}Reef Node setup for Ubuntu 16.04 LTS${NC}"
 echo -e "${GREEN}Updating system and installing required packages...${NC}"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 
@@ -107,10 +95,6 @@ sudo ufw --force enable
 echo -e "${NC}"
 sudo apt-get install -y unzip libzmq3-dev build-essential libssl-dev libboost-all-dev libqrencode-dev libminiupnpc-dev libboost-system1.58.0 libboost1.58-all-dev libdb4.8++ libdb4.8 libdb4.8-dev libdb4.8++-dev libevent-pthreads-2.0-5
 
-#Generating Random Password for itisd JSON RPC
-rpcuser=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-rpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-
 #Create 2GB swap file
 if grep -q "SwapTotal" /proc/meminfo; then
     echo -e "${GREEN}Skipping disk swap configuration...${NC} \n"
@@ -137,14 +121,7 @@ wget https://github.com/reefcoin-io/reefcore/releases/download/v0.5.0/reefcore_l
 unzip reefcore_linux.zip
  
  stop_daemon
-
  
- # Deploy masternode monitoring script
- cp ~/reef/nodemon.sh /usr/local/bin
- sudo chmod 711 /usr/local/bin/nodemon.sh
- 
-
-
 #Finally, starting itis daemon with new itis.conf
 ./reefd --daemon
 delay 5
@@ -160,93 +137,11 @@ fi
 rm tempcron
 
 echo -e "========================================================================
-${YELLOW}Masternode setup is complete!${NC}
+${YELLOW}NODE setup is complete!${NC}
 ========================================================================
-Masternode was installed with VPS IP Address: ${YELLOW}$publicip${NC}
-Masternode Private Key: ${YELLOW}$genkey${NC}
-Now you can add the following string to the masternode.conf file
-for your Hot Wallet (the wallet with your Itis.Network collateral funds):
-======================================================================== \a"
-echo -e "${YELLOW}mn1 $publicip:$PORT $genkey TxId TxIdx${NC}"
-echo -e "========================================================================
-Use your mouse to copy the whole string above into the clipboard by
-tripple-click + single-click (Dont use Ctrl-C) and then paste it 
-into your ${YELLOW}masternode.conf${NC} file and replace:
-    ${YELLOW}mn1${NC} - with your desired masternode name (alias)
-    ${YELLOW}TxId${NC} - with Transaction Id from masternode outputs
-    ${YELLOW}TxIdx${NC} - with Transaction Index (0 or 1)
-     Remember to save the masternode.conf and restart the wallet!
-To introduce your new masternode to the Itis network, you need to
-issue a masternode start command from your wallet, which proves that
-the collateral for this node is secured."
 
 clear_stdin
 read -p "*** Press any key to continue ***" -n1 -s
 
-echo -e "1) Wait for the node wallet on this VPS to sync with the other nodes
-on the network. Eventually the 'Is Synced' status will change
-to 'true', which will indicate a comlete sync, although it may take
-from several minutes to several hours depending on the network state.
-Your initial Masternode Status may read:
-    ${YELLOW}Node just started, not yet activated${NC} or
-    ${YELLOW}Node  is not in masternode list${NC}, which is normal and expected.
-2) Wait at least until 'IsBlockchainSynced' status becomes 'true'.
-At this point you can go to your wallet and issue a start
-command by either using Debug Console:
-    Tools->Debug Console-> enter: ${YELLOW}masternode start-alias mn1${NC}
-    where ${YELLOW}mn1${NC} is the name of your masternode (alias)
-    as it was entered in the masternode.conf file
-    
-or by using wallet GUI:
-    Masternodes -> Select masternode -> RightClick -> ${YELLOW}start alias${NC}
-Once completed step (2), return to this VPS console and wait for the
-Masternode Status to change to: 'Masternode successfully started'.
-This will indicate that your masternode is fully functional and
-you can celebrate this achievement!
-Currently your masternode is syncing with the Itis network...
-The following screen will display in real-time
-the list of peer connections, the status of your masternode,
-node synchronization status and additional network and node stats.
-"
-clear_stdin
-read -p "*** Press any key to continue ***" -n1 -s
-
-echo -e "
-${GREEN}...scroll up to see previous screens...${NC}
-Here are some useful commands and tools for masternode troubleshooting:
-========================================================================
-To view masternode configuration produced by this script in methuselah.conf:
-${YELLOW}cat ~/.methuselah/methuselah.conf${NC}
-Here is your itis.conf generated by this script:
--------------------------------------------------${YELLOW}"
-cat ~/.itis/itis.conf
-echo -e "${NC}-------------------------------------------------
-NOTE: To edit itis.conf, first stop the itisd daemon,
-then edit the itis.conf file and save it in nano: (Ctrl-X + Y + Enter),
-then start the itisd daemon back up:
-             to stop:   ${YELLOW}itis-cli stop${NC}
-             to edit:   ${YELLOW}nano ~/.itis/itis.conf${NC}
-             to start:  ${YELLOW}itisd${NC}
-========================================================================
-To view Itis debug log showing all MN network activity in realtime:
-             ${YELLOW}tail -f ~/.itis/debug.log${NC}
-========================================================================
-To monitor system resource utilization and running processes:
-                   ${YELLOW}htop${NC}
-========================================================================
-To view the list of peer connections, status of your masternode, 
-sync status etc. in real-time, run the nodemon.sh script:
-                 ${YELLOW}nodemon.sh${NC}
-or just type 'node' and hit <TAB> to autocomplete script name.
-========================================================================
-Enjoy your Itis Masternode and thanks for using this setup script!
-
-If you found this script useful, please donate to : i5tTc1KpuSpwagAKBnJajKfVe1FRmD7Hry
-...and make sure to check back for updates!
-Authors: Allroad [fasterpool] , Dwigt007
-"
-delay 30
-# Run nodemon.sh
-nodemon.sh
 
 # EOF
