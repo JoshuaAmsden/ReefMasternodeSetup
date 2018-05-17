@@ -10,7 +10,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #Reef TCP port
-PORT=13058
+PORT=11058
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -116,7 +116,7 @@ fi
 
  #Installing Daemon
  cd ~
- wget https://github.com/reefcoin-io/reefcore/releases/download/v0.5.1/reefcore_linux.zip
+ wget https://github.com/reefcoin-io/reefcore/releases/download/v0.6.0/reefcore_linux.zip
 
 unzip reefcore_linux.zip
  
