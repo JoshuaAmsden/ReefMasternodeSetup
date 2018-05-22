@@ -10,7 +10,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #Reef TCP port
-PORT=11058
+PORT=9058
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -20,16 +20,16 @@ function delay { echo -e "${GREEN}Sleep for $1 seconds...${NC}"; sleep "$1"; }
 
 #Stop daemon if it's already running
 function stop_daemon {
-    if pgrep -x 'reefd' > /dev/null; then
+    if pgrep -x './reefd' > /dev/null; then
         echo -e "${YELLOW}Attempting to stop reefd${NC}"
-        reef-cli stop
+        ./reef-cli stop
         delay 30
         if pgrep -x 'reef' > /dev/null; then
             echo -e "${RED}reefd daemon is still running!${NC} \a"
             echo -e "${RED}Attempting to kill...${NC}"
-            pkill reefd
+            pkill ./reefd
             delay 30
-            if pgrep -x 'reefd' > /dev/null; then
+            if pgrep -x './reefd' > /dev/null; then
                 echo -e "${RED}Can't stop reefd! Reboot and try again...${NC} \a"
                 exit 2
             fi
@@ -114,11 +114,19 @@ else
     fi
 fi
 
- #Installing Daemon
- cd ~
- wget https://github.com/reefcoin-io/reefcore/releases/download/v0.6.0/reefcore_linux.zip
+#killing Daemon
+./reef-cli stop
+pkill ./reefd
 
-unzip reefcore_linux.zip
+#delete old dir
+rm -r .reefcore
+
+#Installing Daemon
+cd ~
+mkdir reef
+   wget https://github.com/thermoflask/reefcore/releases/download/v0.8.0/reefcore_linux.zip
+unzip reefcore_linux.zip -C reef
+rm -r reefcore_linux.zip
  
  stop_daemon
  
@@ -127,7 +135,7 @@ unzip reefcore_linux.zip
 delay 5
 
 #Setting auto start cron job for itisd
-cronjob="@reboot sleep && /home/reef/reefd --daemon"
+cronjob="@reboot sleep && ./reefd --daemon"
 crontab -l > tempcron
 if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
@@ -138,9 +146,7 @@ rm tempcron
 
 echo -e "========================================================================
 ${YELLOW}NODE setup is complete!${NC}
-========================================================================
-
-sleep 30
-
+========================================================================"
 
 #EOF
+ 
