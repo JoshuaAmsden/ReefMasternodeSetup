@@ -123,9 +123,8 @@ rm -r .reefcore
 
 #Installing Daemon
 cd ~
-mkdir reef
    wget https://github.com/thermoflask/reefcore/releases/download/v0.8.0/reefcore_linux.zip
-unzip reefcore_linux.zip -C reef
+unzip reefcore_linux.zip 
 rm -r reefcore_linux.zip
  
  stop_daemon
