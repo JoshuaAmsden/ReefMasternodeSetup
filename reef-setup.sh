@@ -10,7 +10,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #Reef TCP port
-PORT=12058
+PORT=10058
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -20,16 +20,16 @@ function delay { echo -e "${GREEN}Sleep for $1 seconds...${NC}"; sleep "$1"; }
 
 #Stop daemon if it's already running
 function stop_daemon {
-    if pgrep -x './reefd' > /dev/null; then
+    if pgrep -x 'reefd' > /dev/null; then
         echo -e "${YELLOW}Attempting to stop reefd${NC}"
-        ./reef-cli stop
+        reef-cli stop
         delay 30
         if pgrep -x 'reef' > /dev/null; then
             echo -e "${RED}reefd daemon is still running!${NC} \a"
             echo -e "${RED}Attempting to kill...${NC}"
-            pkill ./reefd
+            pkill reefd
             delay 30
-            if pgrep -x './reefd' > /dev/null; then
+            if pgrep -x 'reefd' > /dev/null; then
                 echo -e "${RED}Can't stop reefd! Reboot and try again...${NC} \a"
                 exit 2
             fi
@@ -123,14 +123,20 @@ rm -r .reefcore
 
 #Installing Daemon
 cd ~
+mkdir ~/reef/reefcore_linux
    wget https://github.com/thermoflask/reefcore/releases/download/v0.8.0/reefcore_linux.zip
-unzip reefcore_linux.zip 
+unzip reefcore_linux.zip -d ~/reef/reefcore_linux
 rm -r reefcore_linux.zip
  
  stop_daemon
+
+# Deploy binaries to /usr/bin
+ sudo cp reef/reefcore_linux/reef* /usr/bin/
+ sudo chmod 755 -R ~/reef
+ sudo chmod 755 /usr/bin/reef*
  
-#Finally, starting itis daemon with new itis.conf
-./reefd --daemon
+#Finally, starting reef daemon
+reefd --daemon
 delay 5
 
 #Setting auto start cron job for itisd
