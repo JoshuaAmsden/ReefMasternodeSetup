@@ -136,11 +136,11 @@ rm -r reefcore_linux.zip
  sudo chmod 755 /usr/bin/reef*
  
 #Finally, starting reef daemon
-reefd --daemon
+reefd -daemon
 delay 5
 
-#Setting auto start cron job for itisd
-cronjob="@reboot sleep && ./reefd --daemon"
+#Setting auto start cron job for reefd
+cronjob="@reboot sleep && ./reefd -daemon"
 crontab -l > tempcron
 if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
