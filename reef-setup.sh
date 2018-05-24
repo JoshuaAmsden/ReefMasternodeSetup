@@ -10,7 +10,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #Reef TCP port
-PORT=10058
+PORT=9058
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -124,7 +124,7 @@ rm -r .reefcore
 #Installing Daemon
 cd ~
 mkdir ~/reef/reefcore_linux
-   wget https://github.com/thermoflask/reefcore/releases/download/v0.8.0/reefcore_linux.zip
+   wget https://github.com/reefcoin-io/reefcore/releases/download/v0.9.0/reefcore_linux.zip
 unzip reefcore_linux.zip -d ~/reef/reefcore_linux
 rm -r reefcore_linux.zip
  
@@ -140,7 +140,7 @@ reefd -daemon
 delay 5
 
 #Setting auto start cron job for reefd
-cronjob="@reboot sleep && ./reefd -daemon"
+cronjob="@reboot sleep && reefd -daemon"
 crontab -l > tempcron
 if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
