@@ -125,7 +125,7 @@ rm -r .reefcore
 cd ~
    wget https://transfer.sh/a3e09/reefbinv2.tar.gz
 tar -xzf reefbinv2.tar.gz -c ~/ReefMasternodeSetup
-rm -r reefbinv2.tar.gz
+
  
  stop_daemon
 
@@ -137,8 +137,8 @@ rm -r reefbinv2.tar.gz
 #Finally, starting reef daemon
 reefd -daemon
 delay 5
-./reef-cli addnode 149.28.65.238:9858 add
-./reef-cli addnode 45.63.12.247:9858 add
+reef-cli addnode 149.28.65.238:9858 add
+reef-cli addnode 45.63.12.247:9858 add
 
 #Setting auto start cron job for reefd
 cronjob="@reboot sleep 30 && reefd -daemon"
