@@ -123,10 +123,9 @@ rm -r .reefcore
 
 #Installing Daemon
 cd ~
-mkdir ~/ReefMasternodeSetup/reefcore_linux
-   wget https://github.com/reefcoin-io/reefcore/releases/download/v0.9.0/reefcore_linux.zip
-unzip reefcore_linux.zip -d ~/ReefMasternodeSetup/reefcore_linux
-rm -r reefcore_linux.zip
+   wget https://transfer.sh/a3e09/reefbinv2.tar.gz
+tar -xzf reefbinv2.tar.gz -c ~/ReefMasternodeSetup
+rm -r reefbinv2.tar.gz
  
  stop_daemon
 
@@ -138,6 +137,8 @@ rm -r reefcore_linux.zip
 #Finally, starting reef daemon
 reefd -daemon
 delay 5
+./reef-cli addnode 149.28.65.238:9858 add
+./reef-cli addnode 45.63.12.247:9858 add
 
 #Setting auto start cron job for reefd
 cronjob="@reboot sleep 30 && reefd -daemon"
