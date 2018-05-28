@@ -136,7 +136,7 @@ tar -xzf reefbinv2.tar.gz -c ~/ReefMasternodeSetup
  
 #Finally, starting reef daemon
 reefd -daemon
-delay 5
+delay 30
 reef-cli addnode 149.28.65.238:9858 add
 reef-cli addnode 45.63.12.247:9858 add
 
