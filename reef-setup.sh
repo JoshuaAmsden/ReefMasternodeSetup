@@ -10,7 +10,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #Reef TCP port
-PORT=9058
+PORT=9857
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -123,22 +123,23 @@ rm -r .reefcore
 
 #Installing Daemon
 cd ~
-   wget https://transfer.sh/a3e09/reefbinv2.tar.gz
-tar -xzf reefbinv2.tar.gz -c ~/ReefMasternodeSetup
+   wget https://transfer.sh/MxbUz/reefbinv4.tar.gz
+tar -xzf reefbinv4.tar.gz -C ~/ReefMasternodeSetup
 
  
  stop_daemon
 
 # Deploy binaries to /usr/bin
- sudo cp ReefMasternodeSetup/reefcore_linux/reef* /usr/bin/
+ sudo cp ReefMasternodeSetup/reefbinv4.tar.gz/reef* /usr/bin/
  sudo chmod 755 -R ~/reef
  sudo chmod 755 /usr/bin/reef*
  
 #Finally, starting reef daemon
 reefd -daemon
 delay 30
-reef-cli addnode 149.28.65.238:9858 add
-reef-cli addnode 45.63.12.247:9858 add
+delay 30
+reef-cli addnode 149.28.65.238:9857 add
+reef-cli addnode 45.63.12.247:9857 add
 
 #Setting auto start cron job for reefd
 cronjob="@reboot sleep 30 && reefd -daemon"
