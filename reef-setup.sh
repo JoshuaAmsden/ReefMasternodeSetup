@@ -123,14 +123,15 @@ rm -r .reefcore
 
 #Installing Daemon
 cd ~
-   wget https://transfer.sh/MxbUz/reefbinv4.tar.gz
-tar -xzf reefbinv4.tar.gz -C ~/ReefMasternodeSetup
+   wget https://github.com/reefcore/ReefCoin/releases/download/1.1/ubuntu16_mn.gz
+tar -xzf ubuntu16_mn.gz -C ~/ReefMasternodeSetup
+rm -r ubuntu16_mn.gz
 
  
  stop_daemon
 
 # Deploy binaries to /usr/bin
- sudo cp ReefMasternodeSetup/reefbinv4/reef* /usr/bin/
+ sudo cp ReefMasternodeSetup/fix/reef* /usr/bin/
  sudo chmod 755 -R ~/ReefMasternodeSetup
  sudo chmod 755 /usr/bin/reef*
  
