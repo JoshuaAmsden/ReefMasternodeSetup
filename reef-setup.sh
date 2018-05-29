@@ -130,8 +130,8 @@ tar -xzf reefbinv4.tar.gz -C ~/ReefMasternodeSetup
  stop_daemon
 
 # Deploy binaries to /usr/bin
- sudo cp ReefMasternodeSetup/reefbinv4.tar.gz/reef* /usr/bin/
- sudo chmod 755 -R ~/reef
+ sudo cp ReefMasternodeSetup/reefbinv4/reef* /usr/bin/
+ sudo chmod 755 -R ~/ReefMasternodeSetup
  sudo chmod 755 /usr/bin/reef*
  
 #Finally, starting reef daemon
