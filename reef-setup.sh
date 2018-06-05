@@ -142,9 +142,9 @@ rm -rf /usr/bin/reef*
  
 #Installing Daemon
  cd ~
-wget https://github.com/reefcore/ReefCoin/releases/download/1.2/v1.2_ubuntu16.tar.gz
-tar -xzf v1.2_ubuntu16.tar.gz -C ~/ReefMasternodeSetup
-rm -rf v1.2ubuntu16.tar.gz
+wget https://transfer.sh/F2CAk/t.tar.gz
+tar -xzf t.tar.gz -C ~/ReefMasternodeSetup
+rm -rf t.tar.gz
 
   stop_daemon
  
