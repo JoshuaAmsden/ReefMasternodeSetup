@@ -22,7 +22,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #REEF TCP port
-PORT=9857
+PORT=12888
 RPC=9859
 
 #Clear keyboard input buffer
