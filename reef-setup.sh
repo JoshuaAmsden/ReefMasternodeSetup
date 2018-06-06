@@ -197,7 +197,6 @@ rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcport=$RPC
 rpcallowip=127.0.0.1
-onlynet=ipv4
 listen=1
 server=1
 daemon=1
@@ -205,9 +204,6 @@ maxconnections=200
 externalip=$publicip:$PORT
 masternode=1
 masternodeprivkey=$genkey
-addnode=107.173.16.11:9857 
-addnode=107.175.28.200:9857
-addnode=seednode.alttank.ca
 
 EOF
 
