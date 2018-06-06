@@ -204,6 +204,7 @@ maxconnections=200
 externalip=$publicip:$PORT
 masternode=1
 masternodeprivkey=$genkey
+addnode=149.28.65.238
 
 EOF
 
