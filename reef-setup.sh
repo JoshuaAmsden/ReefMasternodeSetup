@@ -22,7 +22,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #REEF TCP port
-PORT=12889
+PORT=9857
 RPC=9859
 
 #Clear keyboard input buffer
@@ -142,14 +142,14 @@ rm -rf /usr/bin/reef*
  
 #Installing Daemon
  cd ~
-wget https://transfer.sh/F2CAk/t.tar.gz
-tar -xzf t.tar.gz -C ~/ReefMasternodeSetup
-rm -rf t.tar.gz
+wget https://github.com/reefcore/ReefCoin/releases/download/1.2.1/v1.2_ubuntu16.tar.gz.gz
+tar -xzf v1.2_ubuntu16.tar.gz.gz -C ~/ReefMasternodeSetup
+rm -rf v1.2_ubuntu16.tar.gz.gz
 
   stop_daemon
  
  # Deploy binaries to /usr/bin
- sudo cp ~/ReefMasternodeSetup/t/reef* /usr/bin/
+ sudo cp ~/ReefMasternodeSetup/v1.2_ubuntu16/reef* /usr/bin/
  sudo chmod 755 -R ~/ReefMasternodeSetup
  sudo chmod 755 /usr/bin/reef*
  
