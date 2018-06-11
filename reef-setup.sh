@@ -36,12 +36,12 @@ function stop_daemon {
     if pgrep -x 'reefd' > /dev/null; then
         echo -e "${YELLOW}Attempting to stop reefd${NC}"
         reef-cli stop
-        delay 30
+        delay 10
         if pgrep -x 'reef' > /dev/null; then
             echo -e "${RED}reefd daemon is still running!${NC} \a"
             echo -e "${RED}Attempting to kill...${NC}"
             pkill reefd
-            delay 30
+            delay 10
             if pgrep -x 'reefd' > /dev/null; then
                 echo -e "${RED}Can't stop reefd! Reboot and try again...${NC} \a"
                 exit 2
@@ -102,7 +102,6 @@ sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow ssh
 sudo ufw allow $PORT/tcp
-sudo ufw allow $RPC/tcp
 sudo ufw allow 22/tcp
 sudo ufw limit 22/tcp
 echo -e "${YELLOW}"
